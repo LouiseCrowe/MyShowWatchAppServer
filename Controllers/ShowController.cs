@@ -74,6 +74,14 @@ namespace ShowWatch.Server.Controllers
                                 ReleaseDate = new DateTime(2021, 05, 7),
                                 IsKidFriendly = true,
                                 Description = "Latest in the Marvel series starring Scarlett Johansen"},
+                new Show() {    Title = "The Morning Show",
+                                ShowType = ShowType.BoxSet,
+                                Status = Status.NoReleaseDate,
+                                LatestSeason = 1,
+                                NumEpisodes = 10,
+                                Description = "American Drama comedy starring Jennifer Anniston, " +
+                                "Reese Witherspoon and Steve Carell about a Morning Show.  Great script" +
+                                "and story lines"}
 
             };
 
