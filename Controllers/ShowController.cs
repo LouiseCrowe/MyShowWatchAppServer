@@ -12,11 +12,7 @@ namespace ShowWatch.Server.Controllers
     [Route("[controller]")]
     public class ShowController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+       
         private readonly ILogger<ShowController> logger;
 
         public ShowController(ILogger<ShowController> logger)
