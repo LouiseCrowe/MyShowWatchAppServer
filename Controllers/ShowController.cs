@@ -12,7 +12,7 @@ namespace ShowWatch.Server.Controllers
     [Route("[controller]")]
     public class ShowController : ControllerBase
     {
-       
+
         private readonly ILogger<ShowController> logger;
 
         public ShowController(ILogger<ShowController> logger)
@@ -20,38 +20,41 @@ namespace ShowWatch.Server.Controllers
             this.logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<Show> Get()
-        {
-            // create shows and add them to a list
-
-            List<Show> shows = new List<Show>()
+        List<Show> shows = new List<Show>()
             {
                 new Show() {    Title = "Fargo",
                                 ShowType = ShowType.BoxSet,
                                 Status = Status.Available,
-                                LatestSeason = 4,
+                                NumSeasonsConfirmed = 4,
+                                LatestSeasonAvailable = 4,
                                 NumEpisodes = 11,
                                 Description = "American Black Comedy"},
                 new Show() {    Title = "Succession",
                                 ShowType = ShowType.BoxSet,
                                 Status = Status.NoReleaseDate,
-                                LatestSeason = 3,
+                                IsWatched = false,
+                                NumSeasonsConfirmed = 3,
+                                LatestSeasonAvailable = 2,
                                 Description = "American Drama/Comedy based on the Roy family, " +
                                 "owners of a global media company"},
                 new Show() {    Title = "Upright",
                                 ShowType = ShowType.BoxSet,
-                                LatestSeason = 2,
+                                NumSeasonsConfirmed = 1,
+                                LatestSeasonAvailable = 1,
                                 Description = "Fantastic comedy/drama following a musician " +
                                 "and teenager's adventures as they transport an upright piano " +
-                                "from Sydnet to Perth"},
+                                "from Sydney to Perth"},
                 new Show() {    Title = "Louis Theroux's Weird Weekends",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available,
-                                LatestSeason = 4},
+                                NumSeasonsConfirmed = 3,
+                                LatestSeasonAvailable = 3},
                 new Show() {    Title = "The Devil Next Door",
                                 ShowType = ShowType.Documentary,
-                                Status = Status.Available},
+                                Status = Status.Available,
+                                Description = "Documentary about the trail in Isreal of a former " +
+                                "Ukranian citizen accused of being Ivan the Terrible a " +
+                                "notorious concentration camp guard;"},
                 new Show() {    Title = "Vietnam",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available},
@@ -73,7 +76,8 @@ namespace ShowWatch.Server.Controllers
                 new Show() {    Title = "The Morning Show",
                                 ShowType = ShowType.BoxSet,
                                 Status = Status.NoReleaseDate,
-                                LatestSeason = 1,
+                                NumSeasonsConfirmed = 2,
+                                LatestSeasonAvailable = 1,
                                 NumEpisodes = 10,
                                 Description = "American Drama comedy starring Jennifer Anniston, " +
                                 "Reese Witherspoon and Steve Carell about a Morning Show.  Great script" +
@@ -81,9 +85,23 @@ namespace ShowWatch.Server.Controllers
 
             };
 
-
-
+        [HttpGet]
+        public IEnumerable<Show> Get()
+        {
             return shows.ToArray();
         }
+
+        //[HttpGet]
+        //public IActionResult GetAllMovies(ShowType type)
+        //{
+
+        //    Show result;
+
+        //    if (true)
+        //    {
+
+        //    }
+        //    return result;
+        //}
     }
 }
