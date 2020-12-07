@@ -23,14 +23,14 @@ namespace ShowWatch.Server.Controllers
         List<Show> shows = new List<Show>()
             {
                 new Show() {    Title = "Fargo",
-                                ShowType = ShowType.BoxSet,
+                                ShowType = ShowType.TVShow,
                                 Status = Status.Available,
                                 NumSeasonsConfirmed = 4,
                                 LatestSeasonAvailable = 4,
                                 NumEpisodes = 11,
                                 Description = "American Black Comedy"},
                 new Show() {    Title = "Succession",
-                                ShowType = ShowType.BoxSet,
+                                ShowType = ShowType.TVShow,
                                 Status = Status.NoReleaseDate,
                                 IsWatched = false,
                                 NumSeasonsConfirmed = 3,
@@ -38,7 +38,7 @@ namespace ShowWatch.Server.Controllers
                                 Description = "American Drama/Comedy based on the Roy family, " +
                                 "owners of a global media company"},
                 new Show() {    Title = "Upright",
-                                ShowType = ShowType.BoxSet,
+                                ShowType = ShowType.TVShow,
                                 NumSeasonsConfirmed = 1,
                                 LatestSeasonAvailable = 1,
                                 Description = "Fantastic comedy/drama following a musician " +
@@ -74,7 +74,7 @@ namespace ShowWatch.Server.Controllers
                                 IsKidFriendly = true,
                                 Description = "Latest in the Marvel series starring Scarlett Johansen"},
                 new Show() {    Title = "The Morning Show",
-                                ShowType = ShowType.BoxSet,
+                                ShowType = ShowType.TVShow,
                                 Status = Status.NoReleaseDate,
                                 NumSeasonsConfirmed = 2,
                                 LatestSeasonAvailable = 1,
@@ -85,11 +85,56 @@ namespace ShowWatch.Server.Controllers
 
             };
 
-        [HttpGet]
-        public IEnumerable<Show> Get()
+        //[HttpGet]
+        //public IEnumerable<Show> GetAllShows()
+        //{
+        //    shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
+        //    return shows.ToArray();
+        //}
+
+
+        //FROM EAD2 SAMPLE
+        // GET api/shows/all
+        [HttpGet("all")]
+        public IEnumerable<Show> GetAll()
         {
-            return shows.ToArray();
+            shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
+            return shows.ToArray();       // 200 OK, weather serialized in response body
         }
+
+
+        [HttpGet("allmovies")]
+        public IEnumerable<Show> GetAllMovies()
+        {
+            var movies = shows.Where(s => s.ShowType == ShowType.Movie);
+            return movies.ToArray();
+        }
+
+
+        [HttpGet("alltvshows")]
+        public IEnumerable<Show> GetAllTVShows()
+        {
+            var tvShows = shows.Where(s => s.ShowType == ShowType.TVShow);
+            return tvShows.ToArray();
+        }
+
+
+        [HttpGet("alldocumentaries")]
+        public IEnumerable<Show> GetAllDocumentaries()
+        {
+            var tvShows = shows.Where(s => s.ShowType == ShowType.Documentary);
+            return tvShows.ToArray();
+        }
+
+
+        //[HttpGet("shows/showtype/{showtype:ShowType}")]
+        //// GET weather/cities/warning/true or false
+        //public IEnumerable<string> GetCityNameForWarningStatus(bool warning)
+        //{
+        //    // LINQ query, find cities whoose weather warning status matches warning paramater
+        //    var cities = weather.Where(w => w.WeatherWarning == warning).Select(w => w.City);
+        //    return cities;
+        //}
 
         //[HttpGet]
         //public IActionResult GetAllMovies(ShowType type)
