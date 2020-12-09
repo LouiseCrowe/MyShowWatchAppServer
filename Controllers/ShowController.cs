@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace ShowWatch.Server.Controllers
@@ -20,7 +21,7 @@ namespace ShowWatch.Server.Controllers
             this.logger = logger;
         }
 
-        List<Show> shows = new List<Show>()
+        readonly List<Show> shows = new List<Show>()
             {
                 new Show() {    Title = "Fargo",
                                 ShowType = ShowType.TVShow,
@@ -52,8 +53,8 @@ namespace ShowWatch.Server.Controllers
                 new Show() {    Title = "The Devil Next Door",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available,
-                                Description = "Documentary about the trail in Isreal of a former " +
-                                "Ukranian citizen accused of being Ivan the Terrible a " +
+                                Description = "Documentary about the trail in Israel of a former " +
+                                "Ukranian citizen living in the US accused of being Ivan the Terrible a " +
                                 "notorious concentration camp guard;"},
                 new Show() {    Title = "Vietnam",
                                 ShowType = ShowType.Documentary,
@@ -79,27 +80,19 @@ namespace ShowWatch.Server.Controllers
                                 NumSeasonsConfirmed = 2,
                                 LatestSeasonAvailable = 1,
                                 NumEpisodes = 10,
-                                Description = "American Drama comedy starring Jennifer Anniston, " +
+                                Description = "American drama comedy starring Jennifer Anniston, " +
                                 "Reese Witherspoon and Steve Carell about a Morning Show.  Great script" +
                                 "and story lines"}
 
             };
 
-        //[HttpGet]
-        //public IEnumerable<Show> GetAllShows()
-        //{
-        //    shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
-        //    return shows.ToArray();
-        //}
-
-
-        //FROM EAD2 SAMPLE
-        // GET api/shows/all
+      
+        // GET show/all
         [HttpGet("all")]
         public IEnumerable<Show> GetAll()
         {
-            shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
-            return shows.ToArray();       // 200 OK, weather serialized in response body
+            var sortedShows = shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
+            return sortedShows.ToArray();       // 200 OK, weather serialized in response body
         }
 
 
@@ -127,26 +120,36 @@ namespace ShowWatch.Server.Controllers
         }
 
 
-        //[HttpGet("shows/showtype/{showtype:ShowType}")]
-        //// GET weather/cities/warning/true or false
-        //public IEnumerable<string> GetCityNameForWarningStatus(bool warning)
+        //[HttpGet("search/{Title:alpha}")]
+        //public Show GetSearchResultByTitle([FromRoute] string Title)
         //{
-        //    // LINQ query, find cities whoose weather warning status matches warning paramater
-        //    var cities = weather.Where(w => w.WeatherWarning == warning).Select(w => w.City);
-        //    return cities;
+        //    var searchResults = shows.FirstOrDefault(s => s.Title.ToLower() == Title.ToLower());
+        //    return searchResults;
         //}
 
-        //[HttpGet]
-        //public IActionResult GetAllMovies(ShowType type)
+
+        [HttpGet("search/{Title:alpha}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Show> GetSearchResultForShow([FromRoute]string Title)
+        {
+            Show searchResult = shows.FirstOrDefault(s => s.Title.ToLower() == Title.ToLower());
+            if (searchResult == null)
+            {
+                return NotFound();
+            }
+            return new OkObjectResult(searchResult);
+        }
+
+
+        // worked in curl and postman
+        //[HttpGet("search/{Title}")]
+        //public Show GetShow(string title)
         //{
-
-        //    Show result;
-
-        //    if (true)
-        //    {
-
-        //    }
-        //    return result;
+        //    var show = shows.FirstOrDefault(s => s.Title.ToLower() == title.ToLower());
+        //    return show;
         //}
+
     }
 }
