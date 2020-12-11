@@ -89,6 +89,7 @@ namespace ShowWatch.Server.Controllers
       
         // GET show/all
         [HttpGet("all")]
+        [Produces("application/json")]
         public IEnumerable<Show> GetAll()
         {
             var sortedShows = shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
