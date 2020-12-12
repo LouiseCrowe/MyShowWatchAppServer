@@ -82,7 +82,7 @@ namespace ShowWatch.Server.Controllers
                                 NumEpisodes = 10,
                                 Description = "American drama comedy starring Jennifer Anniston, " +
                                 "Reese Witherspoon and Steve Carell about a Morning Show.  Great script" +
-                                "and story lines"}
+                                " and story lines"}
 
             };
 
@@ -92,65 +92,52 @@ namespace ShowWatch.Server.Controllers
         [Produces("application/json")]
         public IEnumerable<Show> GetAll()
         {
-            var sortedShows = shows.OrderBy(s => s.ShowType).ThenBy(s => s.Title);
-            return sortedShows.ToArray();       // 200 OK, weather serialized in response body
+            var allShows = shows.OrderBy(s => s.Title);
+            return allShows;       // 200 OK, weather serialized in response body
         }
 
 
         [HttpGet("allmovies")]
         public IEnumerable<Show> GetAllMovies()
         {
-            var movies = shows.Where(s => s.ShowType == ShowType.Movie);
-            return movies.ToArray();
+            var movies = shows.Where(s => s.ShowType == ShowType.Movie)
+                              .OrderBy(s => s.Title);
+
+            return movies;
         }
 
 
         [HttpGet("alltvshows")]
         public IEnumerable<Show> GetAllTVShows()
         {
-            var tvShows = shows.Where(s => s.ShowType == ShowType.TVShow);
-            return tvShows.ToArray();
+            var tvShows = shows.Where(s => s.ShowType == ShowType.TVShow)
+                                .OrderBy(s => s.Title); 
+            return tvShows;
         }
 
 
         [HttpGet("alldocumentaries")]
         public IEnumerable<Show> GetAllDocumentaries()
         {
-            var tvShows = shows.Where(s => s.ShowType == ShowType.Documentary);
-            return tvShows.ToArray();
+            var documentaries = shows.Where(s => s.ShowType == ShowType.Documentary)
+                               .OrderBy(s => s.Title); 
+            return documentaries;
         }
 
 
-        //[HttpGet("search/{Title:alpha}")]
-        //public Show GetSearchResultByTitle([FromRoute] string Title)
-        //{
-        //    var searchResults = shows.FirstOrDefault(s => s.Title.ToLower() == Title.ToLower());
-        //    return searchResults;
-        //}
-
-
-        [HttpGet("search/{Title:alpha}")]
+        [HttpGet("search/{titleNoSpaces}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Show> GetSearchResultForShow([FromRoute]string Title)
+        public ActionResult<Show> GetSearchResultForShow([FromRoute]string titleNoSpaces)
         {
-            Show searchResult = shows.FirstOrDefault(s => s.Title.ToLower() == Title.ToLower());
+            Show searchResult = shows.FirstOrDefault(s => s.Title.ToLower() == titleNoSpaces.ToLower());
             if (searchResult == null)
             {
                 return NotFound();
             }
             return new OkObjectResult(searchResult);
         }
-
-
-        // worked in curl and postman
-        //[HttpGet("search/{Title}")]
-        //public Show GetShow(string title)
-        //{
-        //    var show = shows.FirstOrDefault(s => s.Title.ToLower() == title.ToLower());
-        //    return show;
-        //}
 
     }
 }
