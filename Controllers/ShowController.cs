@@ -39,7 +39,7 @@ namespace ShowWatch.Server.Controllers
                                 Status = Status.NoReleaseDate,
                                 IsWatched = false,
                                 ReleaseDate = null,
-                                ShowComplete = false, 
+                                ShowComplete = false,
                                 NumSeasonsConfirmed = 3,
                                 LatestSeasonAvailable = 2,
                                 NumEpisodes = 10,
@@ -51,7 +51,7 @@ namespace ShowWatch.Server.Controllers
                                 Status = Status.AwaitingRelease,
                                 IsWatched = false,
                                 ReleaseDate = new DateTime(2021, 4, 1),
-                                ShowComplete = false,                                
+                                ShowComplete = false,
                                 NumSeasonsConfirmed = 6,
                                 LatestSeasonAvailable = 5,
                                 NumEpisodes = 10,
@@ -60,7 +60,7 @@ namespace ShowWatch.Server.Controllers
                                 "fund manager and a US Attorney's attempt to convict him" +
                                 "for financial crimes."},
                 new Show() {    Title = "Upright",
-                                ShowType = ShowType.TVShow,                                
+                                ShowType = ShowType.TVShow,
                                 Status = Status.NoReleaseDate,
                                 IsWatched = true,
                                 ReleaseDate = null,
@@ -72,6 +72,21 @@ namespace ShowWatch.Server.Controllers
                                 Description = "Fantastic comedy/drama following a musician " +
                                 "and teenager's adventures as they transport an upright piano " +
                                 "from Sydney to Perth"},
+                new Show() {    Title = "The A-Team",
+                                ShowType = ShowType.TVShow,
+                                Status = Status.NoReleaseDate,
+                                IsWatched = false,
+                                ReleaseDate = null,
+                                ShowComplete = true,
+                                NumSeasonsConfirmed = 5,
+                                LatestSeasonAvailable = 5,
+                                NumEpisodes = 25,
+                                IsKidFriendly = true,
+                                Description = "In 1972, a crack commando unit was sent to prison " +
+                                "by a military court for a crime they didn't commit. These men " +
+                                "promptly escaped from a maximum security stockade to the Los " +
+                                "Angeles underground. Today, still wanted by the government, " +
+                                "they survive as soldiers of fortune"},
                 new Show() {    Title = "Louis Theroux's Weird Weekends",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available,
@@ -83,7 +98,7 @@ namespace ShowWatch.Server.Controllers
                                 NumEpisodes = 8, 
                                 IsKidFriendly = false, 
                                 Description = "Louis travelling around meeting weird and wonderful" +
-                                "people"},
+                                " people"},
                 new Show() {    Title = "The Devil Next Door",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available,
@@ -94,9 +109,24 @@ namespace ShowWatch.Server.Controllers
                                 LatestSeasonAvailable = 1,
                                 NumEpisodes = 5,
                                 IsKidFriendly = false,
-                                Description = "Documentary about the trail in Israel of a former " +
+                                Description = "Documentary about the trial in Israel of a former " +
                                 "Ukranian citizen living in the US accused of being Ivan the Terrible a " +
                                 "notorious concentration camp guard"},
+                new Show() {    Title = "Peaky Blinders",
+                                ShowType = ShowType.TVShow,
+                                Status = Status.AwaitingRelease,
+                                IsWatched = false,
+                                ReleaseDate = null,
+                                ShowComplete = false,
+                                NumSeasonsConfirmed = 6,
+                                LatestSeasonAvailable = 5,
+                                NumEpisodes = 6,
+                                IsKidFriendly = true,
+                                Description = "In 1972, a crack commando unit was sent to prison " +
+                                "by a military court for a crime they didn't commit. These men " +
+                                "promptly escaped from a maximum security stockade to the Los " +
+                                "Angeles underground. Today, still wanted by the government, " +
+                                "they survive as soldiers of fortune"},
                 new Show() {    Title = "Vietnam",
                                 ShowType = ShowType.Documentary,
                                 Status = Status.Available,
@@ -121,6 +151,9 @@ namespace ShowWatch.Server.Controllers
                                 Status = Status.AwaitingRelease,
                                 IsWatched = false, 
                                 ReleaseDate = new DateTime(2021, 5, 7),
+                                ShowComplete = false,
+                                NumMovies = 10,
+                                LatestMovieAvailable = 9,
                                 IsKidFriendly = true,
                                 Description = "Latest in the Marvel series starring Scarlett Johansen"},
                 new Show() {    Title = "The SpongeBob Movie: Sponge on the Run",
@@ -143,8 +176,31 @@ namespace ShowWatch.Server.Controllers
                                 IsKidFriendly = false,
                                 Description = "American drama comedy starring Jennifer Anniston, " +
                                 "Reese Witherspoon and Steve Carell about a Morning Show.  Great script" +
-                                " and story lines"}
-
+                                " and story lines"},
+                new Show() {    Title = "X Men",
+                                ShowType = ShowType.Movie,
+                                Status = Status.NoReleaseDate,
+                                IsWatched = false,
+                                ReleaseDate = null,
+                                ShowComplete = false,
+                                NumMovies = 7,
+                                LatestMovieAvailable = 6,
+                                IsKidFriendly = true,
+                                Description = "Adventure movie following the exploits of mutants with " +
+                                "amazing gifts"},
+                new Show() {    Title = "Fantastic Four",
+                                ShowType = ShowType.Movie,
+                                Status = Status.NoReleaseDate,
+                                IsWatched = false,
+                                ReleaseDate = null,
+                                ShowComplete = false,
+                                NumMovies = 5,
+                                LatestMovieAvailable = 4,
+                                IsKidFriendly = true,
+                                Description = "A contemporary re-imagining of Marvel's original and " +
+                                "longest-running superhero team, centres on four young outsiders who " +
+                                "teleport to an alternate and dangerous universe, which alters their " +
+                                "physical form in shocking ways"}
             };
 
       
@@ -154,7 +210,7 @@ namespace ShowWatch.Server.Controllers
         public IEnumerable<Show> GetAll()
         {
             var allShows = shows.OrderBy(s => s.Title);
-            return allShows;       // 200 OK, weather serialized in response body
+            return allShows;       
         }
 
 
