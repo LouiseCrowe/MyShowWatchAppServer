@@ -1,4 +1,4 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\BLAZOR\CA3 - Copy\MyShowWatch\MyShowWatch\Client\bin\Debug\netstandard2.1\wwwroot\" />
+  <ContentRoot BasePath="/" Path="C:\BLAZOR\CA3\MyShowWatch\MyShowWatch\Client\bin\Debug\netstandard2.1\wwwroot\" />
   <ContentRoot BasePath="_content/Telerik.UI.for.Blazor.Trial" Path="C:\Users\LouiseEmily\.nuget\packages\telerik.ui.for.blazor.trial\2.20.0\build\..\staticwebassets\" />
 </StaticWebAssets>
