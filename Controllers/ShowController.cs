@@ -1,11 +1,9 @@
-﻿using MyShowWatch.Shared;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MyShowWatch.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace ShowWatch.Server.Controllers
 {
@@ -13,6 +11,7 @@ namespace ShowWatch.Server.Controllers
     [Route("[controller]")]
     public class ShowController : ControllerBase
     {
+        // Mock data for shows
         readonly List<Show> shows = new List<Show>()
             {
                   new Show() {  Title = "Fargo",
@@ -136,6 +135,8 @@ namespace ShowWatch.Server.Controllers
                                 WatchStatus = WatchStatus.NotWatched,
                                 ReleaseDate = null,
                                 RunningStatus = RunningStatus.Finished,
+                                NumMovies = 1,
+                                LatestMovieAvailable = 1,
                                 AgeRating = AgeRating.NotForKids,
                                 Description = "Crime thriller starring Adam Sandler"},
                 new Show() {    Title = "Black Widow",
@@ -195,50 +196,48 @@ namespace ShowWatch.Server.Controllers
                                 "physical form in shocking ways"}
             };
 
-
-        // GET show/all
+        // return IEnumerable list containing all shows sorted by title
         [HttpGet("all")]
         [Produces("application/json")]
         public IEnumerable<Show> GetAll()
         {
             var allShows = shows.OrderBy(s => s.Title);
-            return allShows;       
+            return allShows;
         }
 
-
+        // return IEnumerable list containing all movies sorted by title
         [HttpGet("allmovies")]
         public IEnumerable<Show> GetAllMovies()
         {
             var movies = shows.Where(s => s.ShowType == ShowType.Movie)
                               .OrderBy(s => s.Title);
-
             return movies;
         }
 
-
+        // return IEnumerable list containing all tv shows sorted by title
         [HttpGet("alltvshows")]
         public IEnumerable<Show> GetAllTVShows()
         {
             var tvShows = shows.Where(s => s.ShowType == ShowType.TVShow)
-                                .OrderBy(s => s.Title); 
+                                .OrderBy(s => s.Title);
             return tvShows;
         }
 
-
+        // return IEnumerable list containing all documentaries sorted by title
         [HttpGet("alldocumentaries")]
         public IEnumerable<Show> GetAllDocumentaries()
         {
             var documentaries = shows.Where(s => s.ShowType == ShowType.Documentary)
-                               .OrderBy(s => s.Title); 
+                               .OrderBy(s => s.Title);
             return documentaries;
         }
 
-
+        // return show based on search input
         [HttpGet("search/{titleNoSpaces}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Show> GetSearchResultForShow([FromRoute]string titleNoSpaces)
+        public ActionResult<Show> GetSearchResultForShow([FromRoute] string titleNoSpaces)
         {
             Show searchResult = shows.FirstOrDefault(s => s.Title.ToLower() == titleNoSpaces.ToLower());
             if (searchResult == null)
